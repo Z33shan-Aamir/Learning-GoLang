@@ -16,10 +16,12 @@ type Todo struct {
 	uuid       uuid.UUID
 }
 
-func NewTodo(todo_name string) *Todo {
+// saves data to a json file which in this case are going to be todo items.
+
+func NewTodo(todo_name string) Todo {
 	current_time := time.Now().Local()
-	return &Todo{
-		name:       "New todo",
+	return Todo{
+		name:       todo_name,
 		is_done:    false,
 		created_on: current_time.Format("03/02/2009"),
 		uuid:       uuid.New(),
@@ -54,32 +56,43 @@ func check_args(arguments []string) any {
 			}
 		case "remove":
 			if len(arguments) >= i+1 {
-
+				fmt.Println("Reached the remove case")
 			}
+		case "list":
+			// TODO call a function to list/print the items
 		}
 	}
 
 	return nil
 }
 
-func create_todo(todo_name string) *Todo {
+func create_todo(todo_name string) Todo {
 	Todo := NewTodo(todo_name)
 	return Todo
 
 }
 func main() {
-	// todo_items := map[]interface{}
+	todo_items_map := make(map[uuid.UUID]any)
+	todo_items_slice_uuid := make([]uuid.UUID, 0)
 	fmt.Println("Welcome to Zesshan's Over complicated Todo App")
 	command_line_arguments := os.Args
 	// checks the command line arguments
 	result := check_args(command_line_arguments)
 	fmt.Println(result)
 	switch result := result.(type) {
-	case *Todo:
+	case Todo:
 
-		fmt.Println("reached the case in the main")
-		fmt.Println(result.uuid, result.name, result.created_on, result.is_done)
-		// todo_items[todo.uuid] = map[string]interface{}{}
+		// fmt.Println("reached the case in the main")
+		// fmt.Println(result.name, result.created_on, result.is_done)
+		todo_items_slice_uuid = append(todo_items_slice_uuid, result.uuid)
+		todo_items_map[result.uuid] = []any{
+			result.name,
+			result.created_on,
+			result.is_done,
+		}
+
+		fmt.Println(todo_items_map)
+		fmt.Println(todo_items_slice_uuid)
 
 	case int:
 
