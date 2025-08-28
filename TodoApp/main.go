@@ -11,7 +11,9 @@ import (
 	"example.com/todo/utils"
 )
 
-var file_path string = "./todo.json"
+var file_path_todo string = models.FilePathTodo
+
+// var file_path_deleted_todo string = models.FilePathDeletedTodo
 
 // saves data to a json file which in this case are going to be todo items.
 func main() {
@@ -38,7 +40,7 @@ func main() {
 			result.CreatedOn,
 			result.IsDone,
 		}
-		utils.SaveTodoItems("./todo.json", todo_items_map)
+		utils.SaveTodoItems(models.FilePathTodo, todo_items_map)
 		fmt.Println("New Tdod was added")
 		// fmt.Println(todo_items_map)
 		// fmt.Println(todo_items_slice_uuid)
@@ -89,7 +91,7 @@ func check_args(arguments []string) any {
 
 func list_todo(called_for_uuid_list bool) any {
 
-	loaded_data := utils.LoadTodoItems(file_path)
+	loaded_data := utils.LoadTodoItems(models.FilePathTodo)
 	i := 1
 	fmt.Printf(``)
 	var keys []any
